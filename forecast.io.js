@@ -10,23 +10,23 @@
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
 		// AMD. Register as an anonymous module.
-		define(['moment', 'jquery'], function(moment, $) {
-			return (root.ForecastIO = factory(moment, $));
+		define(['moment', 'es6-promise'], function(moment) {
+			return (root.ForecastIO = factory(moment));
 		});
 	} else if (typeof module === 'object' && module.exports) {
 		// Node. Does not work with strict CommonJS, but
 		// only CommonJS-like environments that support module.exports,
 		// like Node.
-		module.exports = (root.ForecastIO = factory(require('moment'), require('jquery')));
+		module.exports = (root.ForecastIO = factory(require('moment'), require('es6-promise').Promise));
 	} else {
 		// Browser globals (root is window)
-		root.ForecastIO = factory(root.moment, root.$);
+		root.ForecastIO = factory(root.moment);
 	}
-}(this, function(moment, $) {
+}(this, function(moment) {
 
-	/* 	By Ian Tearle 
+	/* 	By Ian Tearle
 		github.com/iantearle
-		
+
 		Other contributors
 		Richard Bultitude
 		github.com/rjbultitude
@@ -43,7 +43,7 @@
 	 */
 	function ForecastIO(config) {
 		//var PROXY_SCRIPT = '/proxy.php';
-		if(!config) { 
+		if (!config) {
 			console.log('You must pass ForecastIO configurations');
 		}
 		if (!config.PROXY_SCRIPT) {
@@ -53,6 +53,30 @@
 		}
 		this.API_KEY = config.API_KEY;
 		this.url = (typeof config.PROXY_SCRIPT !== 'undefined') ? config.PROXY_SCRIPT + '?url=': 'https://api.forecast.io/forecast/' + config.API_KEY + '/';
+	}
+
+	function makeRequest(method, url) {
+		return new Promise(function(resolve, reject) {
+			var xhr = new XMLHttpRequest();
+			xhr.open(method, url);
+			xhr.onload = function() {
+				if (this.status >= 200 && this.status < 300) {
+					resolve(xhr.response);
+				} else {
+					reject({
+						status: this.status,
+						statusText: xhr.statusText
+					});
+				}
+			};
+			xhr.onerror = function() {
+				reject({
+					status: this.status,
+					statusText: xhr.statusText
+				});
+			};
+			xhr.send();
+		});
 	}
 
 	/**
@@ -65,12 +89,27 @@
 	 */
 	ForecastIO.prototype.requestData = function requestData(latitude, longitude) {
 		var requestUrl = this.url + latitude + ',' + longitude;
-		return $.ajax({
-			url: requestUrl,
-			error: function(data) {
-				console.log('Error: Data not loaded: ', data);
-			}
-		});
+		var xhr = new XMLHttpRequest();
+		var content = null;
+		xhr.onreadystatechange = function() {
+			if(xhr.readyState < 4) {
+                return;
+            }
+            if(xhr.status !== 200) {
+                return;
+            }
+            if(xhr.readyState === 4) {
+		        content = xhr.responseText;
+            }
+	        else {
+				console.log('there was a problem getting the weather data. Status: ' + xhr.status + ' State: ' + xhr.readyState);
+				return false;
+	        }
+		};
+		xhr.open('GET', requestUrl, false);
+		xhr.send();
+
+		return makeRequest('GET', requestUrl);
 	};
 
 	ForecastIO.prototype.requestAllLocData = function requestAllLocData(locations) {
@@ -92,21 +131,19 @@
 	 */
 	ForecastIO.prototype.getCurrentConditions = function getCurrentConditions(locations, appFn) {
 		var allLocDataArr = this.requestAllLocData(locations);
-		$.when.apply($, allLocDataArr)
-			.done(function() {
-				var dataSets = [];
-				argLoop:
-				for (var i = 0; i < arguments.length; i++) {
-					var jsonData = JSON.parse(arguments[i][0]);
+		Promise.all(allLocDataArr).then(function(values) {
+			var dataSets = [];
+			for (var i = 0; i < values.length; i++) {
+					var jsonData = JSON.parse(values[i]);
 					var currently = new ForecastIOConditions(jsonData.currently);
 					dataSets.push(currently);
 				}
-				appFn(dataSets);
-				return dataSets;
-			})
-			.fail(function() {
-				console.log('error retrieving data');
-			});
+			appFn(dataSets);
+			return dataSets;
+		});
+		// .catch(function(reason) {
+		// 	console.log('error retrieving data', reason);
+		// });
 	};
 
 	/**
@@ -119,12 +156,11 @@
 	 */
 	ForecastIO.prototype.getForecastToday = function getForecastToday(locations, appFn) {
 		var allLocDataArr = this.requestAllLocData(locations);
-		$.when.apply($, allLocDataArr)
-			.done(function() {
+		Promise.all(allLocDataArr).then(function(values) {
 				var dataSets = [];
-				for (var i = 0; i < arguments.length; i++) {
+				for (var i = 0; i < values.length; i++) {
 					var today = moment().format('YYYY-MM-DD');
-					var jsonData = JSON.parse(arguments[i][0]);
+					var jsonData = JSON.parse(values[i]);
 					for (var j = 0; j < jsonData.hourly.data.length; j++) {
 						var hourlyData = jsonData.hourly.data[j];
 						if (moment.unix(hourlyData.time).format('YYYY-MM-DD') === today) {
@@ -134,10 +170,10 @@
 				}
 				appFn(dataSets);
 				return dataSets;
-			})
-			.fail(function() {
-				console.log('error retrieving data');
 			});
+			// .catch(function(reason) {
+			// 	console.log('error retrieving data: ', reason);
+			// });
 	};
 
 	/**
@@ -150,11 +186,10 @@
 	 */
 	ForecastIO.prototype.getForecastWeek = function getForecastWeek(locations, appFn) {
 		var allLocDataArr = this.requestAllLocData(locations);
-		$.when.apply($, allLocDataArr)
-			.done(function() {
+		Promise.all(allLocDataArr).then(function(values) {
 				var dataSets = [];
-				for (var i = 0; i < arguments.length; i++) {
-					var jsonData = JSON.parse(arguments[i][0]);
+				for (var i = 0; i < values.length; i++) {
+					var jsonData = JSON.parse(values[i]);
 					for (var j = 0; j < jsonData.daily.data.length; j++) {
 						var dailyData = jsonData.daily.data[j];
 						dataSets.push(new ForecastIOConditions(dailyData));
@@ -162,10 +197,10 @@
 				}
 				appFn(dataSets);
 				return dataSets;
-			})
-			.fail(function() {
-				console.log('error retrieving data');
 			});
+			// .catch(function(reason) {
+			// 	console.log('error retrieving data: ', reason);
+			// });
 	};
 
 	function ForecastIOConditions(rawData) {

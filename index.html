@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
   <meta charset="utf-8">
@@ -54,6 +54,19 @@
 			PROXY_SCRIPT: 'proxy.php'
 		});
 	
+		/*
+		 * GET CURRENT CONDITIONS
+		 */
+		forecast.getCurrentConditions(locations, function(conditions) {
+			var items = '';
+			// echo temperature
+			for (var i = 0; i < conditions.length; i++) {
+				items += '<li>' + conditions[i].getTemperature() + '</li>';
+			}
+			document.getElementById('currentTemp').innerHTML = items;
+
+		});
+
 		/*
 		 * GET CURRENT CONDITIONS
 		 */
