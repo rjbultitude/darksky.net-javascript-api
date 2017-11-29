@@ -20,32 +20,37 @@ It differs from the original library in three ways:
 
 * It only accepts, and returns, arrays of locations/conditions - this is a breaking change
 * Each get function's name matches the property name of what the DarkSky service returns
-* Missing data points have been included, see Recent Updates seciton below:
+* New or deprecated data points have been included or excluded respectively (see updates section below)
+
+### Note
+Consider usind [DarkSkyJS-Lite]() which has _no_ dependencies and is around half the size of this module. It does not include the `getForecastToday` and `getForecastWeek` methods and consequently only supports `currently` - this means no `hourly` or `daily` data is returned.
 
 
 ## Recent updates
 
-The following data points have been added since 29/07/2017:
+As of 29/11/2017
+the following data points were added:
 
-* moonPhase
-* precipAccumulation
-* apparentTemperatureMax
-* apparentTemperatureMaxTime
-* apparentTemperatureMin
-* apparentTemperatureMinTime
-* precipIntensityMax
-* precipIntensityMaxTime
-* temperatureMaxTime
-* temperatureMinTime
-* uvIndex
-* uvIndexTime
-* windGust
-* windGustTime
+ * apparentTemperatureHigh
+ * apparentTemperatureHighTime
+ * apparentTemperatureLow
+ * apparentTemperatureLowTime
+ * temperatureHigh
+ * temperatureHighTime
+ * temperatureLow
+ * temperatureLowTime
 
-The following data points were added when first published on NPM
+And the following deprecated ones removed:
 
-* nearestStormDistance
-* nearestStormBearing
+ * apparentTemperatureMax
+ * apparentTemperatureMaxTime
+ * apparentTemperatureMin
+ * apparentTemperatureMinTime
+ * temperatureMax
+ * temperatureMaxTime
+ * temperatureMin
+ * temperatureMinTime
+ * windGustTime
 
 ## Getting Started
 
@@ -151,3 +156,22 @@ DarkSkyJS uses
 ### Plans
 
 Add a method for retrieving alerts
+
+## Updates archive
+
+The following data points have been added since 29/07/2017:
+
+* moonPhase
+* precipAccumulation
+* apparentTemperatureMax
+* apparentTemperatureMaxTime
+* apparentTemperatureMin
+* apparentTemperatureMinTime
+* precipIntensityMax
+* precipIntensityMaxTime
+* temperatureMaxTime
+* temperatureMinTime
+* uvIndex
+* uvIndexTime
+* windGust
+* windGustTime
