@@ -30,7 +30,6 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
-    "gulp": "gulp",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha --env.dev --opts ./mocha.opts \"./test/**/*.js\""
   },
   "repository": {

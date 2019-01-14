@@ -23,7 +23,7 @@ It differs from the original library in three ways:
 * New or deprecated data points have been included or excluded respectively (see updates section below)
 
 ### Note
-Consider usind [DarkSkyJS-Lite]() which has _no_ dependencies and is around half the size of this module. It does not include the `getForecastToday` and `getForecastWeek` methods and consequently only supports `currently` - this means no `hourly` or `daily` data is returned.
+Consider using [DarkSkyJS-Lite](https://www.npmjs.com/package/darkskyjs-lite) which has _no_ dependencies and is around half the size of this module. The lite version does not include the `getForecastToday` and `getForecastWeek` methods and consequently only supports `currently` - this means no `hourly` or `daily` data is returned.
 
 
 ## Recent updates

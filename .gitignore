@@ -25,7 +25,6 @@
 *.publishsettings
 
 # Front-end
-.sass-cache/
 node_modules/
 
 # JavaScript
