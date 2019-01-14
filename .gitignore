@@ -31,6 +31,10 @@ node_modules/
 # JavaScript
 dist/
 
+# Tests
+.nyc_output/
+coverage/
+
 # Backend
 proxy.php
 
