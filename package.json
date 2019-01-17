@@ -14,10 +14,10 @@
     "del": "^2.0.2",
     "mocha": "^3.2.0",
     "nyc": "^13.1.0",
-    "sinon": "^2.4.1"
+    "sinon": "^2.4.1",
+    "uglify-js": "^3.4.9"
   },
   "scripts": {
-    "build": "",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha --env.dev --opts ./mocha.opts \"./test/**/*.js\""
   },
   "repository": {
