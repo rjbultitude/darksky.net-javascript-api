@@ -25,11 +25,13 @@ It differs from the original library in three ways:
 ### Note
 Consider using [DarkSkyJS-Lite](https://www.npmjs.com/package/darkskyjs-lite) which has _no_ dependencies and is around half the size of this module. The lite version does not include the `getForecastToday` and `getForecastWeek` methods and consequently only supports `currently` - this means no `hourly` or `daily` data is returned.
 
-
 ## Recent updates
 
-As of 29/11/2017
-the following data points were added:
+_14/10/2019_
+In v0.3.0 there's improved error checking for the PROXY_SCRIPT URL - Invalid URLs now return warning. The response JSON is also checked for validity. 
+
+_29/11/2017_
+The following data points were added:
 
  * apparentTemperatureHigh
  * apparentTemperatureHighTime
