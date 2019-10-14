@@ -1,6 +1,6 @@
 {
   "name": "darkskyjs",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A promise-based wrapper for requesting weather data from DarkSky.net",
   "main": "lib/darkskyjs.js",
   "dependencies": {
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rjbultitude/darksky.net-javascript-api.git"
+    "url": "git+https://github.com/rjbultitude/darkskyjs.git"
   },
   "keywords": [
     "darksky",
@@ -39,7 +39,7 @@
     "node": ">=4.2.4"
   },
   "bugs": {
-    "url": "https://github.com/rjbultitude/darksky.net-javascript-api/issues"
+    "url": "https://github.com/rjbultitude/darkskyjs/issues"
   },
-  "homepage": "https://github.com/rjbultitude/darksky.net-javascript-api#readme"
+  "homepage": "https://github.com/rjbultitude/darkskyjs#readme"
 }
