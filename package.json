@@ -12,13 +12,15 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^5.0.1",
     "del": "^2.0.2",
+    "eslint": "^6.5.1",
     "mocha": "^3.2.0",
     "nyc": "^13.1.0",
     "sinon": "^2.4.1",
     "uglify-js": "^3.4.9"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha --env.dev --opts ./mocha.opts \"./test/**/*.js\""
+    "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha --env.dev --opts ./mocha.opts \"./test/**/*.js\"",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",

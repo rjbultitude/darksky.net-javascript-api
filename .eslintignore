@@ -1,0 +1,9 @@
+# Dist
+dist/
+
+# Dependencies
+node_modules/
+
+# Unit tests
+.nyc_output/
+coverage/

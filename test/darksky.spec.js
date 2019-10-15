@@ -2,7 +2,7 @@
 
 var chai = require('chai');
 var expect = chai.expect;
-var chaiAsPromised = require("chai-as-promised");
+var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var sinon = require('sinon');
 var DarkSky = require('../lib/darkskyjs');
