@@ -11,14 +11,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function generateRandomNumbers(length) {
-    var numArray = [];
-    for (var i = 0; i < length; i++) {
-        numArray[i] = getRandomInt(1, 10000);
-    }
-    return numArray;
-}
-
 // Calculator module suite
 // Group specs with describe
 // Use as many specs as you like

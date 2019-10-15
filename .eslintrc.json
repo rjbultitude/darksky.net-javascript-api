@@ -1,12 +1,19 @@
 {
+  "extends": "eslint:recommended",
   "env": {
     "browser": true,
-    "mocha": true
+    "node": true,
+    "mocha": true,
+    "amd": true,
+    "es6": true
   },
   "parserOptions": {
-    "ecmaVersion": 6
+    "ecmaVersion": 6,
+    "sourceType": "module"
   },
   "rules": {
-    "quotes": [2, "single"]
+    "quotes": [2, "single"],
+    "complexity": ["error", 5],
+    "no-useless-escape": 0
   }
 }
